@@ -13,4 +13,4 @@ spring:
             server1:
               url: http://127.0.0.1:8080
     dashscope:
-      api-key: {阿里云千问apiKey}
+      api-key: sk-6ac45cee28ab43bbac25465ebcc0f07d
