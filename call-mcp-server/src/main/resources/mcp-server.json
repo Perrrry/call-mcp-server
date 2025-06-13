@@ -1,20 +1,12 @@
 {
   "mcpServers": {
-    "fileSystem": {
-      "command": "D:\\software\\nodeJs\\npx.cmd",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "D:\\software\\sqlite"
-      ]
-    },
-    "sqlLite": {
-      "command": "D:\\Program Files\\python3.12.3\\Scripts\\uvx.exe",
-      "args": [
-        "mcp-server-sqlite",
-        "--db-path",
-        "D:\\work-space-study\\spring-ai-mcp-demo\\mcp-client\\src\\main\\resources\\test.db"
-      ]
+
+    "amap": {
+      "command": "uvx",
+      "args": ["mcp-server-amap"],
+      "env": {
+        "AMAP_API_KEY": "136c4ca5475022e05d9bee6f9c3d3498"
+      }
     }
   }
 }

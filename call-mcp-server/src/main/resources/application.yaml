@@ -1,41 +1,51 @@
+# 服务器配置
 server:
-  port: 9999
-  # 优化Tomcat配置以支持长连接
+  port: 9999  # 服务监听端口（示例：访问 http://localhost:9999）
+  
+  # Tomcat服务器优化配置（适用于高并发对话场景）
   tomcat:
-    connection-timeout: 300000  # 5分钟超时
-    keep-alive-timeout: 300000  # 5分钟keep-alive
-    max-keep-alive-requests: 1000
+    connection-timeout: 300000  # 连接超时5分钟（足够长对话完成）
+    keep-alive-timeout: 300000  # Keep-Alive保持5分钟（避免频繁重连）
+    max-keep-alive-requests: 1000  # 单个连接最大请求数（适合聊天场景的短连接复用）
     threads:
-      max: 200
-      min-spare: 10
-    max-connections: 8192
-    accept-count: 100
-    # 启用压缩
+      max: 200       # 最大线程数（可同时处理200个用户请求）
+      min-spare: 10  # 最小空闲线程（始终保持10个线程待命）
+    max-connections: 8192  # 最大连接数（支持8000+并发）
+    accept-count: 100      # 等待队列长度（超出线程数时的缓冲）
+    
+    # 响应压缩配置（节省带宽）
     compression:
-      enabled: true
-      mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json,text/event-stream
-      min-response-size: 1024
+      enabled: true  # 启用压缩
+      mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json,text/event-stream  # 压缩类型
+      min-response-size: 1024  # 超过1KB才压缩
 
+# Spring相关配置
 spring:
   ai:
+    # MCP客户端配置（对接AI模型服务）
     mcp:
       client:
-        enabled: true
-        name: call-mcp-server
+        enabled: true  # 启用MCP客户端
+        name: call-mcp-server  # 客户端名称（用于服务发现）
         sse:
           connections:
             server1:
-              url: http://127.0.0.1:8080
+              url: http://127.0.0.1:8080  # MCP服务地址（示例：本地测试服务）
+            amap-server:
+              url: http://127.0.0.1:8081  # 高德地图MCP服务地址
+
+    # 阿里云DashScope配置（备用AI服务）
     dashscope:
-      api-key: sk-6ac45cee28ab43bbac25465ebcc0f07d
-  # 配置异步支持
+      api-key: sk-6ac45cee28ab43bbac25465ebcc0f07d  # 示例API密钥（实际使用时需替换）
+  
+  # MVC异步支持（用于SSE长连接）
   mvc:
     async:
-      request-timeout: 300000  # 5分钟异步请求超时
+      request-timeout: 300000  # 异步请求超时5分钟（与前端EventSource匹配）
 
-# 日志配置
+# 日志级别配置
 logging:
   level:
-    com.ahucoding.rocket.callmcpserver: DEBUG
-    org.springframework.web.servlet.mvc.method.annotation.SseEmitter: DEBUG
-    root: INFO
+    com.ahucoding.rocket.callmcpserver: DEBUG  # 项目包开启DEBUG日志（记录详细交互）
+    org.springframework.web.servlet.mvc.method.annotation.SseEmitter: DEBUG  # 监控SSE连接状态
+    root: INFO  # 其他日志保持INFO级别
