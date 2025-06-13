@@ -1,16 +1,41 @@
 server:
   port: 9999
+  # 优化Tomcat配置以支持长连接
+  tomcat:
+    connection-timeout: 300000  # 5分钟超时
+    keep-alive-timeout: 300000  # 5分钟keep-alive
+    max-keep-alive-requests: 1000
+    threads:
+      max: 200
+      min-spare: 10
+    max-connections: 8192
+    accept-count: 100
+    # 启用压缩
+    compression:
+      enabled: true
+      mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json,text/event-stream
+      min-response-size: 1024
+
 spring:
   ai:
     mcp:
       client:
         enabled: true
         name: call-mcp-server
-#        stdio:
-#          servers-configuration: classpath:mcp-server.json
         sse:
           connections:
             server1:
               url: http://127.0.0.1:8080
     dashscope:
       api-key: sk-6ac45cee28ab43bbac25465ebcc0f07d
+  # 配置异步支持
+  mvc:
+    async:
+      request-timeout: 300000  # 5分钟异步请求超时
+
+# 日志配置
+logging:
+  level:
+    com.ahucoding.rocket.callmcpserver: DEBUG
+    org.springframework.web.servlet.mvc.method.annotation.SseEmitter: DEBUG
+    root: INFO
