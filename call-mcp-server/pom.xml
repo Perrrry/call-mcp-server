@@ -1,88 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- XML文件头，声明版本和编码格式 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 项目根标签，定义了Maven POM文件的命名空间和XML Schema位置 -->
+
     <modelVersion>4.0.0</modelVersion>
+    <!-- 指定POM模型版本，固定为4.0.0 -->
+
     <parent>
+        <!-- 父项目配置，继承Spring Boot的父POM -->
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/> <!-- 表示优先从本地仓库查找父POM -->
     </parent>
-    <groupId>com.ahucoding.rocket</groupId>
-    <artifactId>call-mcp-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>call-mcp-server</name>
-    <description>call-mcp-server</description>
 
+    <groupId>com.ahucoding.rocket</groupId>
+    <!-- 项目组织标识，通常使用公司域名的反转 -->
+    <artifactId>call-mcp-server</artifactId>
+    <!-- 项目名称标识 -->
+    <version>0.0.1-SNAPSHOT</version>
+    <!-- 项目版本号，SNAPSHOT表示开发中的版本 -->
+    <name>call-mcp-server</name>
+    <!-- 项目显示名称 -->
+    <description>call-mcp-server</description>
+    <!-- 项目描述 -->
 
     <properties>
+        <!-- 自定义属性区 -->
         <java.version>17</java.version>
+        <!-- 指定Java版本为17 -->
         <spring.ai.alibaba>1.0.0-M6.1</spring.ai.alibaba>
+        <!-- 自定义Spring AI Alibaba的版本属性 -->
     </properties>
 
-
     <dependencyManagement>
+        <!-- 依赖管理区（不会实际引入依赖，只做版本管理） -->
         <dependencies>
             <dependency>
                 <groupId>org.springframework.ai</groupId>
                 <artifactId>spring-ai-bom</artifactId>
                 <version>1.0.0-M6</version>
+                <!-- 引入Spring AI的BOM（Bill of Materials）管理依赖版本 -->
                 <type>pom</type>
                 <scope>import</scope>
+                <!-- 表示导入这个POM的依赖管理 -->
             </dependency>
         </dependencies>
     </dependencyManagement>
 
-
     <dependencies>
+        <!-- 实际项目依赖区 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+            <!-- Spring Boot基础启动器 -->
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <!-- Spring Boot测试支持，仅用于测试范围 -->
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <!-- Spring Web MVC支持 -->
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <!-- Thymeleaf模板引擎支持 -->
         </dependency>
 
-
-        <dependency>
+        <!-- 被注释掉的MCP客户端依赖（示例中未使用） -->
+        <!--dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-mcp-client-spring-boot-starter</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-        </dependency>
+        </dependency-->
 
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-mcp</artifactId>
+            <!-- Spring AI的MCP（可能是某个AI服务）核心库 -->
         </dependency>
 
         <dependency>
             <groupId>com.alibaba.cloud.ai</groupId>
             <artifactId>spring-ai-alibaba-starter</artifactId>
             <version>${spring.ai.alibaba}</version>
+            <!-- 阿里云AI Starter，版本引用上面定义的属性 -->
         </dependency>
-
     </dependencies>
 
     <build>
+        <!-- 构建配置区 -->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- Spring Boot的Maven插件，用于打包可执行JAR -->
             </plugin>
         </plugins>
     </build>
-
 </project>
